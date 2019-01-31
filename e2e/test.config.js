@@ -107,7 +107,9 @@ module.exports = {
          * The BPM API context required for calls  
          * @config adf.APSAPIContextRoot {String}  
          */
-        apiContextRoot: "/activiti-app"
+        apiContextRoot: "/activiti-app",
+
+        clientIdSso: "activiti",
     }
 
 };
