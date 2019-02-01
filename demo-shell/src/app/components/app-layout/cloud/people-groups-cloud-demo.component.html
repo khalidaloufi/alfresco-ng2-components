@@ -6,11 +6,11 @@
     <mat-card-content>
         <div class="people-control-options">
             <mat-radio-group (change)="onChangePeopleMode($event)">
-                <mat-radio-button class="adf-people-single-mode" value="{{ peopleSingleMode }}">{{ 'PEOPLE_GROUPS_CLOUD.SINGLE' | translate }}</mat-radio-button>
+                <mat-radio-button class="adf-people-single-mode" checked="true" value="{{ peopleSingleMode }}">{{ 'PEOPLE_GROUPS_CLOUD.SINGLE' | translate }}</mat-radio-button>
                 <mat-radio-button class="adf-people-multiple-mode" value="{{ peopleMultipleMode }}">{{ 'PEOPLE_GROUPS_CLOUD.MULTI' | translate }}</mat-radio-button>
             </mat-radio-group>
             <mat-form-field class="adf-preselect-value">
-                <mat-label>{{ 'PEOPLE_GROUPS_CLOUD.PRESELECTED_VALUE' | translate }}</mat-label>
+                <mat-label>{{ DEFAULT_PEOPLE_PLACEHOLDER }}</mat-label>
                 <input matInput (input)="setPeoplePreselectValue($event.target.value)" />
             </mat-form-field>
         </div>
@@ -37,18 +37,22 @@
     <mat-card-content>
         <div class="groups-control-options">
             <mat-radio-group (change)="onChangeGroupsMode($event)">
-                <mat-radio-button class="adf-people-single-mode" value="{{ groupSingleMode }}">{{ 'PEOPLE_GROUPS_CLOUD.SINGLE' | translate }}</mat-radio-button>
+                <mat-radio-button class="adf-people-single-mode" checked="true" value="{{ groupSingleMode }}">{{ 'PEOPLE_GROUPS_CLOUD.SINGLE' | translate }}</mat-radio-button>
                 <mat-radio-button class="adf-people-multiple-mode" value="{{ groupMultipleMode }}">{{ 'PEOPLE_GROUPS_CLOUD.MULTI' | translate }}</mat-radio-button>
             </mat-radio-group>
+            <mat-form-field class="adf-preselect-value">
+                <mat-label>{{ DEFAULT_GROUP_PLACEHOLDER }}</mat-label>
+                <input matInput (input)="setGroupsPreselectValue($event.target.value)" />
+            </mat-form-field>
         </div>
         <div>
             <adf-cloud-group [mode]="groupMode" [preSelectGroups]="preSelectGroup" (selectGroup)="onSelectGroup($event)"
                 (removeGroup)="onRemoveGroup($event)"></adf-cloud-group>
         </div>
 
-        <div class="adf-group-list">
+        <div class="adf-group-list" *ngIf="canShowGroupList()">
             <mat-list role="list">
-                <mat-list-item *ngFor="let item of selectedGroupList" role="listitem">
+                <mat-list-item *ngFor="let item of preSelectGroup" role="listitem">
                     <mat-icon mat-list-icon>group</mat-icon>
                     {{ item.name }}
                 </mat-list-item>

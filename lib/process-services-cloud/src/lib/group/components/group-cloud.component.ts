@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import { Component, ElementRef, OnInit, Output, EventEmitter, ViewChild, ViewEncapsulation, Input } from '@angular/core';
+import { Component, ElementRef, OnInit, Output, EventEmitter, ViewChild, ViewEncapsulation, Input, SimpleChanges, OnChanges } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { Observable, of, BehaviorSubject } from 'rxjs';
@@ -39,7 +39,7 @@ import { distinctUntilChanged, switchMap, flatMap, mergeMap, filter, tap } from 
     ],
     encapsulation: ViewEncapsulation.None
 })
-export class GroupCloudComponent implements OnInit {
+export class GroupCloudComponent implements OnInit, OnChanges {
 
     static MODE_SINGLE = 'single';
     static MODE_MULTIPLE = 'multiple';
@@ -94,12 +94,17 @@ export class GroupCloudComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.loadPreSelectGroups();
         this.initSearch();
 
         if (this.appName) {
             this.disableSearch();
             this.loadClientId();
+        }
+    }
+
+    ngOnChanges(changes: SimpleChanges) {
+        if (changes.preSelectGroups) {
+            this.loadPreSelectGroups();
         }
     }
 
@@ -109,7 +114,6 @@ export class GroupCloudComponent implements OnInit {
             this.enableSearch();
         }
     }
-
     initSearch() {
         this.searchGroupsControl.valueChanges.pipe(
             debounceTime(500),
@@ -178,6 +182,7 @@ export class GroupCloudComponent implements OnInit {
     private loadPreSelectGroups() {
         if (this.hasGroups(this.preSelectGroups)) {
             if (this.isMultipleMode()) {
+                this.selectedGroups.length = 0;
                 this.preSelectGroups.forEach((group: GroupModel) => {
                     this.selectedGroups.push(group);
                 });
