@@ -15,8 +15,8 @@
             [processInstanceId]="editedFilter.processInstanceId"
             [name]="editedFilter.taskName"
             [parentTaskId]="editedFilter.parentTaskId"
-            [status]="editedFilter.state"
-            [assignee]="editedFilter.assignment"
+            [status]="editedFilter.status"
+            [assignee]="editedFilter.assignee"
             [sorting]="sortArray"
             (rowClick)="onRowClick($event)">
         </adf-cloud-task-list>
